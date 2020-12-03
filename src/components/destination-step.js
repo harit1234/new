@@ -5,8 +5,6 @@ import {
   FormControl,
   ControlLabel,
   HelpBlock,
-  Checkbox,
-  CheckboxGroup,
   Radio,
   RadioGroup,
 } from "rsuite";
@@ -21,18 +19,18 @@ const DestinationStep = (props) => {
       <Form>
         <FormGroup>
           <ControlLabel>Checkbox</ControlLabel>
-          <FormControl name="radio" accepter={CheckboxGroup} inline>
-            <RadioGroup
-              onChange={(d) => handleOnChange(d)}
-              value={props.selectedDestination}
-            >
-              {props.destinations.map((d, i) => (
-                <Radio key={i} value={d}>
-                  {d.charAt(0).toUpperCase() + d.slice(1)}
-                </Radio>
-              ))}
-            </RadioGroup>
-          </FormControl>
+
+          <RadioGroup
+            onChange={(d) => handleOnChange(d)}
+            value={props.selectedDestination}
+          >
+            {props.destinations.map((d, i) => (
+              <Radio key={i} value={d}>
+                {d.charAt(0).toUpperCase() + d.slice(1)}
+              </Radio>
+            ))}
+          </RadioGroup>
+
           <HelpBlock>This default description.</HelpBlock>
         </FormGroup>
       </Form>

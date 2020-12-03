@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Form,
   FormGroup,
@@ -10,26 +10,36 @@ import {
 } from "rsuite";
 
 const CityStep = (props) => {
+  const [cities, setCities] = useState(props.values);
+
   const handleChange = (e) => {
-    if (props.values.length) props.updateStep(3);
-    else props.updateStep(2);
-    props.onChange(e);
-    console.log(e);
+    setCities(e);
   };
+
+  useEffect(() => {
+    if (cities.length) props.updateStep(3);
+    else props.updateStep(2);
+    props.onChange(cities);
+  }, [cities]);
+
+  console.log(Array.isArray(cities));
 
   return (
     <Form>
       <FormGroup>
         <ControlLabel>Checkbox</ControlLabel>
-        <FormControl name="checkbox" accepter={CheckboxGroup} inline>
-          <CheckboxGroup value={props.values} onChange={(e) => handleChange(e)}>
-            {props.cities.map((city, i) => (
-              <Checkbox key={i} value={city}>
-                {city.charAt(0).toUpperCase() + city.slice(1)}
-              </Checkbox>
-            ))}
-            <HelpBlock>This default description.</HelpBlock>
-          </CheckboxGroup>
+        <FormControl
+          name="checkbox"
+          value={cities}
+          accepter={CheckboxGroup}
+          onChange={(e) => handleChange(e)}
+        >
+          {props.cities.map((city, i) => (
+            <Checkbox key={i} value={city}>
+              {city.charAt(0).toUpperCase() + city.slice(1)}
+            </Checkbox>
+          ))}
+          <HelpBlock>This default description.</HelpBlock>
         </FormControl>
       </FormGroup>
     </Form>

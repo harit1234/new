@@ -6,6 +6,7 @@ import NameStep from "./components/name-step";
 import DestinationStep from "./components/destination-step";
 import CityStep from "./components/city-step";
 import UserReview from "./components/user-review";
+import Review from "./components/values-step";
 
 const App = () => {
   const [step, setStep] = React.useState(0);
@@ -39,12 +40,6 @@ const App = () => {
   const onCityChange = (e) => {
     setCities(e);
   };
-
-  useEffect(() => {
-    if (!selectedCities.length) {
-      setallowedLastStep(2);
-    }
-  }, [selectedCities]);
 
   const activeComponent = () => {
     switch (step) {
@@ -80,15 +75,34 @@ const App = () => {
           />
         );
       case 4:
-        return <></>;
+        return (
+          <>
+            <Review
+              name={name}
+              destination={destinationType}
+              cities={selectedCities}
+              rev={review}
+            />
+          </>
+        );
     }
   };
+
+  console.log(step >= allowedLastStep, step, allowedLastStep);
+
+  useEffect(() => {
+    if (!selectedCities.length && step >= 1) {
+      setallowedLastStep(2);
+    }
+  }, [selectedCities]);
 
   const onNext = () => onChange(step + 1);
   const onPrevious = () => onChange(step - 1);
 
   const updateStep = (step) => {
+    console.log(" updateStep ", step);
     setallowedLastStep(step);
+    console.log(allowedLastStep);
   };
 
   return (
@@ -109,7 +123,7 @@ const App = () => {
         <Button onClick={onPrevious} disabled={step === 0}>
           Previous
         </Button>
-        <Button onClick={onNext} disabled={step === allowedLastStep}>
+        <Button onClick={onNext} disabled={step >= allowedLastStep}>
           Next
         </Button>
       </ButtonGroup>

@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Form, FormGroup, FormControl, ControlLabel, HelpBlock } from "rsuite";
 
 const NameStep = (props) => {
+  const [name, setName] = useState(props.value);
+
   const handleChange = (e) => {
-    if (e.length) props.updateStep(2);
-    else props.updateStep(0);
-    props.onChange(e);
+    setName(e);
   };
+
+  useEffect(() => {
+    console.log(name);
+    if (!name.length) props.updateStep(0);
+    else props.updateStep(2);
+    props.onChange(name);
+  }, [name]);
 
   return (
     <Form>
       <FormGroup>
         <ControlLabel>Username</ControlLabel>
-        <FormControl value={props.value} onChange={handleChange} name="name" />
+        <FormControl value={name} onChange={handleChange} name="name" />
         {!props.value ? <HelpBlock>Required</HelpBlock> : <></>}
       </FormGroup>
     </Form>
